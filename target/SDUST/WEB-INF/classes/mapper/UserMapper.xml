@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdkd.dao.UserDao">
+    <resultMap id="userMap" type="com.sdkd.model.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name" />
+        <result property="password" column="password"/>
+        <result property="is_expert" column="is_expert"/>
+        <result property="phone" column="phone"/>
+        <result property="wechat" column="wechat"/>
+        <result property="profile" column="profile"/>
+        <result property="state" column="state"/>
+        <result property="userPic" column="userPic"/>
+        <result property="sex" column="sex"/>
+        <result property="number" column="number"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <result property="email" column="email"/>
+        <result property="qq" column="qq"/>
+        <result property="creatTime" column="creatTime"/>
+    </resultMap>
+    <sql id="userInfo">
+        id,
+        name,
+        number,
+        is_expert,
+        state,
+        sex,
+        profile,
+        address,
+        birthday,
+        phone,
+        email,
+        qq,
+        creatTime,
+        wechat
+    </sql>
+    <sql id="insertUser">
+        id,
+        name,
+        password,
+        is_expert,
+        state,
+        sex,
+        address,
+        phone,
+        email,
+        creatTime
+    </sql>
+
+    <sql id="userField">
+        a.id as "id",
+        a.name as "name",
+        a.password as "password"
+    </sql>
+<!--按id查用户信息-->
+    <select id="findById" resultMap="userMap">
+        SELECT
+        <include refid="userInfo"></include>
+        FROM kd_user
+        <where>
+            id = #{id}
+        </where>
+    </select>
+<!--    按id+password查询用户信息-->
+    <select id="checkUser" resultMap="userMap">
+        SELECT
+        <include refid="userInfo"></include>
+        FROM kd_user
+        <where>
+            id = #{id} AND password = #{password}
+        </where>
+    </select>
+    <select id="findAll" resultMap="userMap">
+        SELECT
+        <include refid="userInfo"></include>
+        FROM kd_user
+    </select>
+    <insert id="save" keyProperty="id" parameterType="com.sdkd.model.User">
+        INSERT INTO kd_user(
+        <include refid="insertUser"></include>
+        ) values (
+        #{user.id},#{user.name},#{user.password},
+        #{user.is_expert},#{user.stste},#{user.sex},
+        #{user.address},#{user.phone},#{user.email},
+        #{user.creatTime}
+        )
+
+    </insert>
+
+    <update id="updateUser">
+        UPDATE kd_user
+        <set>
+            <if test="user.name!=null">
+                name = #{user.name},
+            </if>
+            <if test="user.phone!=null">
+                phone = #{user.phone},
+            </if>
+            <if test="user.wechat!=null">
+                wechat = #{user.wechat},
+            </if>
+            <if test="user.profile!=null">
+                profile = #{user.profile},
+            </if>
+            <if test="user.sex!=null">
+                sex = #{user.sex},
+            </if>
+            <if test="user.birthday!=null">
+                birthday = #{user.birthday},
+            </if>
+            <if test="user.address!=null">
+                address = #{user.address},
+            </if>
+            <if test="user.email!=null">
+                email = #{user.email},
+            </if>
+            <if test="user.qq!=null">
+                qq = #{user.qq},
+            </if>
+        </set>
+        WHERE id = #{user.id}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE kd_user
+        <set>
+            <if test="user.password!=null">
+                password = #{user.password},
+            </if>
+        </set>
+        WHERE id = #{user.id}
+    </update>
+<!--    &lt;!&ndash; 获取所有用户 操作的id与dao内的方法名一一对应 &ndash;&gt;-->
+<!--    <select id="findAll" resultType="com.sdkd.model.User">-->
+<!--        select-->
+<!--        <include refid="userField" />-->
+<!--        from c_user as a-->
+<!--    </select>-->
+
+<!--    <select id="countByName" parameterType="String" resultType="int">-->
+<!--        SELECT count(*) FROM c_user where name=#{name}-->
+<!--    </select>-->
+
+</mapper>

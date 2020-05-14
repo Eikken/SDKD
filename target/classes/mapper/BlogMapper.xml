@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdkd.dao.BlogDao">
+    <resultMap id="blogMap" type="com.sdkd.model.Blog">
+        <id property="blog_id" column="blog_id"></id>
+        <result property="blog_text" column="blog_text"/>
+        <result property="blog_title" column="blog_title"/>
+        <result property="user_id" column="user_id"/>
+        <result property="blog_date" column="blog_date"/>
+        <result property="is_hot" column="is_hot"/>
+        <result property="is_expert" column="is_expert"/>
+        <result property="praise_count" column="praise_count"/>
+    </resultMap>
+
+    <resultMap id="commentMap" type="com.sdkd.model.Comment">
+        <id property="comment_id" column="comment_id"></id>
+        <result property="user_id" column="user_id"></result>
+        <result property="blog_id" column="blog_id"></result>
+        <result property="comment_text" column="comment_text"></result>
+        <result property="comment_date" column="comment_date"></result>
+        <result property="parent_id" column="parent_id"></result>
+        <result property="praise_count" column="praise_count"></result>
+    </resultMap>
+    <sql id="blogInfo">
+        blog_id,
+        user_id,
+        blog_title,
+        blog_text,
+        blog_date,
+        is_hot,
+        is_expert,
+        praise_count
+    </sql>
+
+    <sql id="commentInfo">
+        comment_id,
+        user_id,
+        blog_id,
+        comment_text,
+        comment_date,
+        parent_id,
+        praise_count
+    </sql>
+<!--查询所有blog-->
+    <select id="findAll" resultMap="blogMap">
+        SELECT
+        <include refid="blogInfo"></include>
+        FROM kd_blog
+    </select>
+
+    <insert id="saveBlog">
+        INSERT INTO kd_blog(user_id,blog_text,blog_date,is_expert) values (#{user_id},#{blog_text},#{blog_date},#{is_expert})
+    </insert>
+
+    <select id="findById" resultMap="blogMap">
+        SELECT
+        <include refid="blogInfo"></include>
+        FROM kd_blog
+        <where>
+            blog_id = #{blog_id}
+        </where>
+    </select>
+    <select id="findByUser" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        kd_blog
+        WHERE
+        kd_blog.user_id = #{user_id}
+    </select>
+
+    <select id="findUserBlog" resultMap="blogMap">
+        SELECT
+        <include refid="blogInfo"></include>
+        FROM kd_blog WHERE kd_blog.user_id = #{user_id}
+    </select>
+    <delete id="deleteBlog">
+        DELETE FROM kd_blog WHERE blog_id = #{blog_id}
+    </delete>
+
+</mapper>

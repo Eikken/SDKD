@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdkd.dao.UserLikeRelDao">
+    <resultMap id="likeMap" type="com.sdkd.model.Like">
+        <id property="like_id" column="like_id"></id>
+        <result property="blog_id" column="blog_id"></result>
+        <result property="comment_id" column="comment_id"></result>
+    </resultMap>
+    <select id="findAllRelation" resultMap="likeMap">
+        SELECT * FROM kd_like
+    </select>
+
+    <insert id="saveRelation" useGeneratedKeys="true" keyProperty="like_id" parameterType="com.sdkd.model.Like">
+        insert into kd_like (user_id,blog_id)
+        value (#{userLike.user_id},#{userLike.blog_id})
+    </insert>
+
+    <update id="updateBlogLike">
+        UPDATE kd_blog
+        <set>
+            <if test="blog.praise_count!=null">
+                praise_count = #{blog.praise_count},
+            </if>
+        </set>
+        WHERE blog_id = #{blog.blog_id}
+    </update>
+
+    <update id="updateCommentLike">
+        UPDATE kd_comment
+        <set>
+            <if test="comment.praise_count!=null">
+                praise_count = #{comment.praise_count},
+            </if>
+        </set>
+        WHERE comment_id = #{comment.comment_id}
+    </update>
+</mapper>

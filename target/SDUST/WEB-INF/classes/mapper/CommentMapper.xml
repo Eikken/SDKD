@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdkd.dao.CommentDao">
+    <resultMap id="commentMap" type="com.sdkd.model.Comment">
+        <id property="comment_id" column="comment_id"></id>
+        <result property="user_id" column="user_id"></result>
+        <result property="blog_id" column="blog_id"></result>
+        <result property="comment_text" column="comment_text"></result>
+        <result property="comment_date" column="comment_date"></result>
+        <result property="parent_id" column="parent_id"></result>
+        <result property="praise_count" column="praise_count"></result>
+    </resultMap>
+    <sql id="commentInfo">
+        comment_id,
+        user_id,
+        blog_id,
+        comment_text,
+        comment_date,
+        parent_id,
+        praise_count
+    </sql>
+
+    <!--查询blog_id的所有comment-->
+    <select id="getSonComment" resultMap="commentMap">
+        SELECT
+        <include refid="commentInfo"></include>
+        FROM kd_comment
+        <where>
+            blog_id = #{id}
+        </where>
+    </select>
+
+    <select id="findComment" resultMap="commentMap">
+        SELECT
+        <include refid="commentInfo"></include>
+        FROM kd_comment
+        <where>
+            comment_id = #{comment_id}
+        </where>
+    </select>
+
+    <insert id="replyComment">
+        INSERT INTO kd_comment(user_id,blog_id,comment_text,comment_date,parent_id) values (#{user_id},#{blog_id},#{comment_text},#{comment_date},#{parent_id})
+    </insert>
+
+    <update id="likeComment" parameterType="com.sdkd.model.Comment">
+        UPDATE kd_comment
+        <set>
+            <if test="praise_count!=null">praise_count = #{praise_count}</if>
+        </set>
+        WHERE comment_id = #{comment_id}
+    </update>
+    
+    <delete id="deleteComment">
+        DELETE FROM kd_comment WHERE comment_id = #{commment_id}
+    </delete>
+</mapper>
