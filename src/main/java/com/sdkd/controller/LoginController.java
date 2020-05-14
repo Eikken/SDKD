@@ -82,6 +82,7 @@ public class LoginController {
                 session.setAttribute("currentRole", currentRole);//角色
                 session.setAttribute("currentName", currentName);//用户名
                 session.setAttribute("uid", userDTO.getId());//用户账号
+                session.setAttribute("pid", userDTO.getIs_expert());//权限信息
                 return "redirect:SendBlog.action";
             }else{
                 System.err.println("No user "+userName);

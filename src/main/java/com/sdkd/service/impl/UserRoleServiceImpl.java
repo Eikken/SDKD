@@ -32,6 +32,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         userDTO.setPhone(user.getPhone());
         userDTO.setEmail(user.getEmail());
 
+        userDTO.setIs_expert(user.getIs_expert());
         userDTO.setState(user.getState());
         userDTO.setQq(user.getQq());
         userDTO.setCreatTime(user.getCreatTime());
@@ -40,7 +41,7 @@ public class UserRoleServiceImpl implements UserRoleService {
                 userDTO.setIsExpert("普通用户");break;
             case 1:
                 userDTO.setIsExpert("专家用户");break;
-            case -1:
+            case 2:
                 userDTO.setIsExpert("管理员");break;
             default:
                 userDTO.setIsExpert(null);break;
@@ -55,7 +56,7 @@ public class UserRoleServiceImpl implements UserRoleService {
             case 3:
                 userDTO.setStatus("传说");break;
             default:
-                userDTO.setStatus("无状态");break;
+                userDTO.setStatus("已封禁");break;
         }
 //        if(user.getIs_expert()==0){
 //            userDTO.setIsExpert("普通用户");

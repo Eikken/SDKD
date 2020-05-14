@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
             userDTO.setBirthday(user.getBirthday());
             userDTO.setPhone(user.getPhone());
             userDTO.setEmail(user.getEmail());
-
+            userDTO.setIs_expert(user.getIs_expert());
 //            userDTO.setQq(user.getQq());
 //            userDTO.setCreatTime(user.getCreatTime());
 //            userDTO.setWechat(user.getWechat());
@@ -67,10 +67,10 @@ public class UserServiceImpl implements UserService {
                     userDTO.setIsExpert("普通用户");break;
                 case 1:
                     userDTO.setIsExpert("专家用户");break;
-                case -1:
+                case 2:
                     userDTO.setIsExpert("管理员");break;
                 default:
-                    userDTO.setIsExpert(null);break;
+                    break;
             }
             switch(user.getState()){
                 case 0:
@@ -112,8 +112,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(User user) {
-        return userDao.deleteUser(user);
+    public boolean deleteUser(Integer id) {
+        return userDao.deleteUser(id);
     }
 
     @Override
@@ -129,6 +129,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updatePassword(User user) {
         return userDao.updatePassword(user);
+    }
+
+    @Override
+    public List<UserDTO> findByInteger(String dom, Integer value) {
+        return converModel2DTO(userDao.findByInteger(dom,value));
+    }
+
+    @Override
+    public List<UserDTO> findByString(String dom, String value) {
+        return converModel2DTO(userDao.findByString(dom,value));
     }
 
 

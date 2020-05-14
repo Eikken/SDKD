@@ -16,7 +16,7 @@
         <meta name="description" content="进出口纺织原料质量安全风险监测系统" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <%--        layui 四大件 --%>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/layui/css/layui.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/layui/css/layui.css" media="all"/>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/view/libs/jquery-1.12.2.min.js" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/view/layui/layui.js"></script>
@@ -170,17 +170,6 @@
                                                                                         </h4>
                                                                                 </div>
                                                                                 <div class="page-control" style="">
-                                                                                        <button type="button" class="layui-btn" id="prePage">
-                                                                                                <svg class="icon" aria-hidden="true">
-                                                                                                        <use xlink:href="#icon-fanye"></use>
-                                                                                                </svg>上一页
-                                                                                        </button>
-
-                                                                                        <button type="button" class="layui-btn" id="nextPage">
-                                                                                                <svg class="icon" aria-hidden="true">
-                                                                                                        <use xlink:href="#icon-fanye1"></use>
-                                                                                                </svg>下一页
-                                                                                        </button>
                                                                                 </div>
                                                                                 <div class="widget-body">
                                                                                         <div class="widget-main no-padding">
@@ -188,6 +177,9 @@
                                                                                                 <div class="dialogs" id="blog" style="overflow: hidden; width: auto; height: auto;">
 
                                                                                                 </div><!-- /widget-main -->
+                                                                                                <div id="demo0"></div>
+                                                                                                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                                                                                                </fieldset>
                                                                                                 <div class="slimScrollBar ui-draggable" style="background: rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 250.696px;"></div>
                                                                                                 <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
                                                                                             </div>

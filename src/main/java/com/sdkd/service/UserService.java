@@ -22,14 +22,17 @@ public interface UserService {
     User findById(Integer id);
     List<UserDTO> searchUser(Integer id);
     //添加
-    boolean insertUser(@Param("user")User user);
+    boolean insertUser(User user);
     //delete
-    boolean deleteUser(@Param("user")User user);
+    boolean deleteUser(Integer user);
     //update
-    boolean updateUser(@Param("user")User user);
+    boolean updateUser(User user);
     //插入
-    boolean save(@Param("user")User user);
+    boolean save(User user);
 
     //改密码
     boolean updatePassword(@Param("user")User user);
+
+    List<UserDTO> findByString(String dom, String value);
+    List<UserDTO> findByInteger(String dom, Integer value);
 }

@@ -77,6 +77,28 @@
         <include refid="userInfo"></include>
         FROM kd_user
     </select>
+<!--    按条件查找-->
+    <select id="findByInteger" resultMap="userMap">
+        SELECT
+        <include refid="userInfo"></include>
+        FROM kd_user
+        <where>
+            ${dom} like CONCAT('%',#{value},'%' )
+        </where>
+    </select>
+    <select id="findByString" resultMap="userMap">
+        SELECT
+        <include refid="userInfo"></include>
+        FROM kd_user
+        <where>
+            ${dom} like CONCAT('%',#{value},'%' )
+        </where>
+    </select>
+<!--管理员插入用户-->
+    <insert id="insertUser" keyProperty="id" parameterType="com.sdkd.model.User">
+        INSERT INTO kd_user(id,name,password,is_expert) values (#{user.id},#{user.name},#{user.password},#{user.is_expert})
+    </insert>
+
     <insert id="save" keyProperty="id" parameterType="com.sdkd.model.User">
         INSERT INTO kd_user(
         <include refid="insertUser"></include>
@@ -94,6 +116,12 @@
         <set>
             <if test="user.name!=null">
                 name = #{user.name},
+            </if>
+            <if test="user.state!=null">
+                state = #{user.state},
+            </if>
+            <if test="user.is_expert!=null">
+                is_expert = #{user.is_expert},
             </if>
             <if test="user.phone!=null">
                 phone = #{user.phone},
@@ -132,6 +160,10 @@
         </set>
         WHERE id = #{user.id}
     </update>
+
+    <delete id="deleteUser">
+        DELETE FROM kd_user WHERE id = #{id}
+    </delete>
 <!--    &lt;!&ndash; 获取所有用户 操作的id与dao内的方法名一一对应 &ndash;&gt;-->
 <!--    <select id="findAll" resultType="com.sdkd.model.User">-->
 <!--        select-->

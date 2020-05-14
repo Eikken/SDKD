@@ -16,7 +16,7 @@
     <meta name="description" content="进出口纺织原料质量安全风险监测系统" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/view/layui/css/layui.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/view/layui/css/layui.css" media="all"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/view/libs/jquery-1.12.2.min.js"></script>
     <script src="${pageContext.request.contextPath}/view/layui/layui.js"></script>
     <script src="${pageContext.request.contextPath}/view/layer/layer.js"></script>
@@ -238,7 +238,7 @@
                                             <div class="col-sm-9">
                                                 <div class="input-medium">
                                                     <div class="input-group">
-                                                        <input class="input-medium date-picker" id="birthday" name="birthday"  type="date" data-date-format="yyyy-MM-dd" placeholder="yyyy-MM-dd">
+                                                        <input class="input-medium date-picker" id="birthday" name="birthday"  type="text" data-date-format="yyyy-MM-dd" placeholder="yyyy-MM-dd">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar"></i>
                                                         </span>

@@ -36,6 +36,24 @@ Date.prototype.format = function(fmt) {
 }
 
 function onload() {
+    // $.ajax({
+    //     url: "./blog/loadPage.action",
+    //     dataType:"json",
+    //     type:'get',
+    //     success:function(data){
+    //         var obj = eval('(' + data+ ')');
+    //         layui.use(['laypage', 'layer'], function() {
+    //             var laypage = layui.laypage
+    //                 , layer = layui.layer;
+    //
+    //             //总页数低于页码总数
+    //             laypage.render({
+    //                 elem: 'demo0'
+    //                 , count: obj.count //数据总数
+    //             });
+    //         })
+    //     }
+    // })
     $.ajax({
         url: "./blog/load.action",
         dataType:"json",
@@ -205,27 +223,30 @@ function likeBlog(blog_id) {
 }
 
 function deleteB(blog_id) {
-    layer.msg('是否删除帖子？', {
-        time: 0 //不自动关闭
-        ,btn: [' 删除 ', ' 取消 ']
-        ,yes: function(index){
-            layer.close(index);
-            $.ajax({
-                url: "./blog/deleteBlog.action?blogId="+blog_id,
-                datatype:"json",
-                type:'get',
-                success:function(data) {
-                    var jData = eval('(' + data.str + ')');
-                    if(jData.code==1){
-                        layer.msg(jData.msg, {icon: 1});
-                        window.parent.location.reload();
-                    }else{
-                        layer.msg(jData.msg, {icon: 2});
+    layui.use("layer",function () {
+        var layer = layui.layer
+        layer.msg('是否删除帖子？', {
+            time: 0 //不自动关闭
+            ,btn: [' 删除 ', ' 取消 ']
+            ,yes: function(index){
+                layer.close(index);
+                $.ajax({
+                    url: "./blog/deleteBlog.action?blogId="+blog_id,
+                    datatype:"json",
+                    type:'get',
+                    success:function(data) {
+                        var jData = eval('(' + data.str + ')');
+                        if(jData.code==1){
+                            layer.msg(jData.msg, {icon: 1});
+                            window.parent.location.reload();
+                        }else{
+                            layer.msg(jData.msg, {icon: 2});
+                        }
                     }
-                }
-            })
-        }
-    });
+                })
+            }
+        });
+    })
     // layer.confirm('是否删除帖子？', {
     //     btn: ['删除','取消']  //按钮
     // }, function(){
@@ -248,34 +269,25 @@ function deleteB(blog_id) {
 }
 
 function deleteC(comment_id) {
-    // layer.msg('是否删除评论？', {
-    //     time: 0 //不自动关闭
-    //     ,btn: [' 删除 ', ' 取消 ']
-    //     ,yes: function(index){
-    //         layer.close(index);
-    //         layer.msg('雅蠛蝶 O.o', {
-    //             icon: 6
-    //             ,btn: ['嗷','嗷','嗷']
-    //         });
-    //     }
-    // });
-    layer.confirm('是否删除评论？', {
-        btn: ['删除','取消'] //按钮
-    }, function(){
-        $.ajax({
-            url: "./comment/deleteComment.action?commentId="+comment_id,
-            datatype:"json",
-            type:'get',
-            success:function(data) {
-                var jData = eval('(' + data.str + ')');
-                if(jData.code==1){
-                    layer.msg(jData.msg, {icon: 1});
-                    window.parent.location.reload();
-                }else{
-                    layer.msg(jData.msg, {icon: 2});
+    layui.use("layer",function () {
+        var layer = layui.layer
+        layer.confirm('是否删除评论？', {
+            btn: ['删除','取消'] //按钮
+        }, function(){
+            $.ajax({
+                url: "./comment/deleteComment.action?commentId="+comment_id,
+                datatype:"json",
+                type:'get',
+                success:function(data) {
+                    var jData = eval('(' + data.str + ')');
+                    if(jData.code==1){
+                        layer.msg(jData.msg, {icon: 1});
+                        window.parent.location.reload();
+                    }else{
+                        layer.msg(jData.msg, {icon: 2});
+                    }
                 }
-            }
-        })
-    });
-
+            })
+        });
+    })
 }

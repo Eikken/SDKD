@@ -1,3 +1,11 @@
+layui.use('laydate', function(){
+    var laydate = layui.laydate;
+    //执行一个laydate实例
+    laydate.render({
+        elem: '#birthday' //指定元素
+    });
+});
+
 $(function () {
     $(":button").click(function () {
         var formObject = {};

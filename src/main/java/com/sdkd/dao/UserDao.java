@@ -24,17 +24,15 @@ public interface UserDao {
     //添加
     boolean insertUser(@Param("user")User user);
     //delete
-    boolean deleteUser(@Param("user")User user);
+    boolean deleteUser(@Param("id")Integer id);
     //update
     boolean updateUser(@Param("user")User user);
     //插入
     boolean save(@Param("user")User user);
     //改密码
     boolean updatePassword(@Param("user")User user);
-//    c_User findById(String id);
-//    List<c_User> findAll();
-//    List<c_User> findByRoleId();
-//    int countByName(String name);
-//    int updateUser(c_User user);
 
+    List<User> findByString(@Param("dom")String dom,@Param("value")String value);
+
+    List<User> findByInteger(@Param("dom")String dom,@Param("value")Integer value);
 }

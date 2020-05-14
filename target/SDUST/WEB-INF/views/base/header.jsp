@@ -35,6 +35,12 @@
 						</a>
 					</li>
 					<li>
+						<a href="./admin.action">
+							<i class="icon-cog"></i>
+							后台管理
+						</a>
+					</li>
+					<li>
 						<a href="javascript:logout()">
 							<i class="icon-off"></i>
 							注销

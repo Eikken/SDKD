@@ -1,6 +1,8 @@
 package com.sdkd.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.sdkd.bean.JsonBean;
 import com.sdkd.common.JsonReader;
 import com.sdkd.dto.BlogDTO;
@@ -11,10 +13,7 @@ import com.sdkd.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -53,11 +52,61 @@ public class UserController {
 
     @RequestMapping("/editProfile")
     public String editProfile(){
-
         System.err.println("login editProfile------->");
         return "editProfile";
     }
 
+    @RequestMapping("/add")
+    public String add(){
+        System.err.println("login editProfile------->");
+        return "add";
+    }
+    @RequestMapping("/addUser")
+    public String addUser(HttpServletRequest request,
+                             @RequestParam(value = "name",required = false) String name,
+                             @RequestParam(value = "id",required = false) String id,
+                             @RequestParam(value = "password",required = false) String password,
+                             @RequestParam(value = "role",required = false) String role) {
+        HttpSession session = request.getSession();
+        Integer pid = (Integer) session.getAttribute("pid");
+
+        if(pid==null) return "redirect:login.action";
+        if(id==null) return "redirect:adminManage.action";
+        if(pid==2){
+            User user1 = userService.findById(Integer.parseInt(id));
+            if(user1!=null){
+                return "redirect:add.action?error="+"Can_Not_Insert_Existed_User.id";
+            }
+            User user = new User();
+            user.setId(Integer.parseInt(id));
+            user.setName(name);
+            user.setPassword(password);
+            user.setIs_expert(Integer.parseInt(role));
+            userService.insertUser(user);
+            return "adminManage";
+        }
+        return "redirect:SendBlog.action";
+    }
+
+    @RequestMapping("/adminManage")
+    public String adminManage(){
+        System.err.println("进入后台管理页面e------->");
+        return "adminManage";
+    }
+    @RequestMapping("/admin")
+    public String admin(HttpServletRequest request, HttpServletResponse response){
+//        String uid = request.getParameter("uid");
+        HttpSession session = request.getSession();
+        Integer pid = (Integer)session.getAttribute("pid");
+        if(pid==null){
+            return "redirect:login.action";
+        }
+//        User user = userService.findById(pid);
+        if(pid==2){
+            return "redirect:adminManage.action";
+        }
+        return "redirect:SendBlog.action";
+    }
 
     @ResponseBody
     @RequestMapping(value = "/getProfile")
@@ -136,6 +185,27 @@ public class UserController {
     }
 
     @ResponseBody
+//    @RequestMapping(value = "/layLoad")
+    @RequestMapping(value = "/layLoad",method = RequestMethod.POST,produces ={"text/html;charset=UTF-8;", "application/json;"})
+    public JsonBean layLoad() {
+        System.err.println("layLoad==>>");
+        JsonBean jsonBean = new JsonBean();
+        try{
+            List<UserDTO> userDTOList = userService.findAll();
+            jsonBean.setCode(0);
+            jsonBean.setMsg("success");
+            jsonBean.setData(userDTOList);
+            jsonBean.setCount(userDTOList.size());
+            return jsonBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonBean.setCode(0);
+            jsonBean.setMsg("failed");
+            jsonBean.setCount(0);
+            return jsonBean;
+        }
+    }
+    @ResponseBody
     @RequestMapping(value = "/edit")
     public ModelMap edit() {
         ModelMap mm = new ModelMap();
@@ -190,6 +260,133 @@ public class UserController {
             jsonBean.setCode(-1);
         }
         return mm.addAttribute("str",JSON.toJSONString(jsonBean));
+    }
+
+    @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonBean deleteUser(@RequestBody UserDTO userDTO){
+        JsonBean jsonBean = new JsonBean();
+        try{
+            userService.deleteUser(userDTO.getId());
+            jsonBean.setMsg("delete user success");
+            jsonBean.setCode(1);
+            return jsonBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonBean.setMsg("delete user fail");
+            jsonBean.setCode(-1);
+            return jsonBean;
+        }
+    }
+
+    @RequestMapping(value = "/user/editName")
+    @ResponseBody
+    public JsonBean editName(@RequestParam(value = "uid", required = false) String uid,@RequestParam(value = "value", required = false) String value){
+        JsonBean jsonBean = new JsonBean();
+        try{
+            User user = userService.findById(Integer.parseInt(uid));
+            user.setName(value);
+            userService.updateUser(user);
+            jsonBean.setMsg("update user name success");
+            jsonBean.setCode(1);
+            return jsonBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonBean.setMsg("update user name fail");
+            jsonBean.setCode(-1);
+            return jsonBean;
+        }
+    }
+
+    @RequestMapping(value = "/user/editState")
+    @ResponseBody
+    public JsonBean editState(@RequestParam(value = "uid", required = false) String uid,@RequestParam(value = "value", required = false) String value){
+        JsonBean jsonBean = new JsonBean();
+        try{
+            User user = userService.findById(Integer.parseInt(uid));
+            System.err.println(value);
+            switch (value){
+                case "潜水":
+                    user.setState(0);break;
+                case "冒泡":
+                    user.setState(1);break;
+                case "活跃":
+                    user.setState(2);break;
+                case "传说":
+                    user.setState(3);break;
+                default:
+                    user.setState(4);break;
+            }
+            userService.updateUser(user);
+            jsonBean.setMsg("update user state success");
+            jsonBean.setCode(1);
+            return jsonBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonBean.setMsg("update user state fail");
+            jsonBean.setCode(-1);
+            return jsonBean;
+        }
+    }
+
+    @RequestMapping(value = "/user/editRole")
+    @ResponseBody
+    public JsonBean editRole(@RequestParam(value = "uid", required = false) String uid,@RequestParam(value = "value", required = false) String value){
+        JsonBean jsonBean = new JsonBean();
+        try{
+            User user = userService.findById(Integer.parseInt(uid));
+//            System.err.println(user.toString());
+            switch (value){
+                case "普通用户":
+                    user.setIs_expert(0);break;
+                case "专家用户":
+                    user.setIs_expert(1);break;
+                case "管理员":
+                    user.setIs_expert(2);break;
+            }
+            userService.updateUser(user);
+            jsonBean.setMsg("update user role success");
+            jsonBean.setCode(1);
+            return jsonBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonBean.setMsg("update user role fail");
+            jsonBean.setCode(-1);
+            return jsonBean;
+        }
+    }
+
+    @RequestMapping(value = "/user/findBy", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> findBy(@RequestParam("domain") String dom,@RequestParam("valu") String value,int page,int limit){
+//        System.out.println(dom+" "+value+" "+page+" "+limit);
+//        int before = limit * (page - 1) + 1;
+//        int after = page * limit;
+        Integer val = 0;
+        if(dom.equals("0")){ dom = "id";val = Integer.parseInt(value);}
+        if(dom.equals("1")){
+            dom = "sex";
+            List<UserDTO> userDTOList = userService.findByString(dom,value);
+            int count = userDTOList.size();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("msg","");
+            map.put("code",0);
+            map.put("count",count);
+            map.put("data",userDTOList);
+            System.out.println(map);
+            return map;
+        }
+        if(dom.equals("2")){ dom = "state";val = Integer.parseInt(value);}
+
+        List<UserDTO> userDTOList = userService.findByInteger(dom,val);
+        int count = userDTOList.size();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("msg","");
+        map.put("code",0);
+        map.put("count",count);
+        map.put("data",userDTOList);
+        System.out.println(map);
+        return map;
     }
 }
 
