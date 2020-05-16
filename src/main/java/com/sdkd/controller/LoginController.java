@@ -49,7 +49,7 @@ public class LoginController {
     }
     @RequestMapping(value = "/loginCheck")
 //    @ResponseBody
-    //    @PathVariable是获取url上数据的。
+//    @PathVariable是获取url上数据的。
 //    @RequestParam获取请求参数的（包括post表单提交）
     public String loginCheck(HttpServletRequest request, @RequestParam(value = "userName",required = false) String username, @RequestParam(value = "password",required = false) String password) {
 //        String uname = request.getParameter("userName");
@@ -85,6 +85,7 @@ public class LoginController {
                 session.setAttribute("pid", userDTO.getIs_expert());//权限信息
                 return "redirect:SendBlog.action";
             }else{
+
                 System.err.println("No user "+userName);
             }
         } catch (Exception e) {
@@ -92,7 +93,7 @@ public class LoginController {
         }
         HttpSession session = request.getSession();
         session.setAttribute("user",userName);
-        return "login";
+        return "redirect:login.action?msg=UserInformationCheckError";
     }
 
     @ResponseBody
@@ -101,6 +102,10 @@ public class LoginController {
         ModelMap mm = new ModelMap();
         try {
             request.getSession().removeAttribute("USER");
+            request.getSession().removeAttribute("currentRole");
+            request.getSession().removeAttribute("currentName");
+            request.getSession().removeAttribute("uid");
+            request.getSession().removeAttribute("pid");
         } catch (Exception e) {
             e.printStackTrace();
         }

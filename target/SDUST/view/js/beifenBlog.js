@@ -36,24 +36,6 @@ Date.prototype.format = function(fmt) {
 }
 
 function onload() {
-    // $.ajax({
-    //     url: "./blog/loadPage.action",
-    //     dataType:"json",
-    //     type:'get',
-    //     success:function(data){
-    //         var obj = eval('(' + data+ ')');
-    //         layui.use(['laypage', 'layer'], function() {
-    //             var laypage = layui.laypage
-    //                 , layer = layui.layer;
-    //
-    //             //总页数低于页码总数
-    //             laypage.render({
-    //                 elem: 'demo0'
-    //                 , count: obj.count //数据总数
-    //             });
-    //         })
-    //     }
-    // })
     $.ajax({
         url: "./blog/load.action",
         dataType:"json",
@@ -66,10 +48,10 @@ function onload() {
             document.getElementById("AjaxBlog").style.display="none";
             var jData = eval(data.str);
             var likeList = eval(data.likeList);
-            var uid = $("#uid").val();
+            var uid = document.getElementById("uid").value;
             let flag = false;
             $("#blog").html("<h5>数据如下：</h5><br>");
-
+            console.log(uid)
             for(let i=0; i<jData.length; i++){
                 for(let n=0;n<likeList.length;n++){
                     if(jData[i].blog_id==likeList[n].blog_id && uid ==likeList[n].user_id){
@@ -97,11 +79,17 @@ function onload() {
                     "<a href='#' class='btn btn-minier btn-info'> <i class='icon-only icon-share-alt'></i> </a>" +"&nbsp;&nbsp;"+
                     "<a class='btn btn-minier btn-info' href='javascript:void(0)' onclick='deleteB("+jData[i].blog_id+")'><i class='icon-only icon-trash'></i></a>" +"&nbsp;&nbsp;"+
                     "<a class='btn btn-minier btn-info' style='color:orange;' href='javascript:void(0)' onclick='replyBlog("+jData[i].blog_id+")'><i class='icon-only icon-comments-alt'></i></a>" +"&nbsp;&nbsp;"+
-                    "<button class='likeLabel' onclick='likeBlog("+ jData[i].blog_id +");this.disabled=true'><i class='icon-only icon-heart-empty'></i></button>" +
+                    "<button class='likeLabel' id='blogLabel"+jData[i].blog_id.toString()+"' onclick='likeBlog("+ jData[i].blog_id +");this.disabled=true'><i class='icon-only icon-heart-empty'></i></button>" +
                     "<span class='likeSpan' id='blogLike"+jData[i].blog_id.toString()+"'>"+jData[i].praise_count+"</span>"+
                     "</div></div>";
 
                 $("#blog").append(str1);
+                if(flag){
+                    flag = false
+                    document.getElementById("blogLike"+jData[i].blog_id.toString()).innerText ="已赞!"+jData[i].praise_count;
+                    document.getElementById("blogLabel"+jData[i].blog_id.toString()).disabled=true;
+
+                }
                 $("#blog").append("<b>评论区</b> <br>");
                 if(jComments.length==0){
                     let str2 = "<div class='user'  style='padding-top: 5px; padding-left: 40px;'>" +
@@ -247,25 +235,6 @@ function deleteB(blog_id) {
             }
         });
     })
-    // layer.confirm('是否删除帖子？', {
-    //     btn: ['删除','取消']  //按钮
-    // }, function(){
-    //     $.ajax({
-    //         url: "./blog/deleteBlog.action?blogId="+blog_id,
-    //         datatype:"json",
-    //         type:'get',
-    //         success:function(data) {
-    //             var jData = eval('(' + data.str + ')');
-    //             if(jData.code==1){
-    //                 layer.msg(jData.msg, {icon: 1});
-    //                 window.parent.location.reload();
-    //             }else{
-    //                 layer.msg(jData.msg, {icon: 2});
-    //             }
-    //         }
-    //     })
-    // });
-
 }
 
 function deleteC(comment_id) {

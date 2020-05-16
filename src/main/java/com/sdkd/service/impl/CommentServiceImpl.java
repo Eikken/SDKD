@@ -43,5 +43,10 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.deleteComment(comment_id);
     }
 
+    @Override
+    public boolean deleteCommentCascadeBlog(Integer blog_id) {
+        return commentDao.deleteCommentCascadeBlog(blog_id);
+    }
+
 
 }

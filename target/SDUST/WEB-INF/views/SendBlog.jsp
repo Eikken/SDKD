@@ -262,7 +262,8 @@
                                 <i class="icon-double-angle-up icon-only bigger-110"></i>
                         </a>
                 </div><!-- /.main-container -->
-                <input id="uid" type="hidden" value="<%= request.getAttribute("uid")%>">
+            </div>
+                <input id="uid" type="hidden" value="<%= session.getAttribute("uid")%>">
                 <script type="text/javascript">
                         window.jQuery || document.write("<script src='${pageContext.request.contextPath}/view/assets/js/jquery-2.0.3.min.js'>"+"<"+"script>");
                 </script>

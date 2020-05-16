@@ -414,13 +414,13 @@
 
                             <div class="clearfix form-actions">
                                 <div class="col-md-offset-3 col-md-9">
-                                    <button class="btn btn-info" type="button">
+                                    <button class="btn btn-info" type="button" id="submit" >
                                         <i class="icon-ok bigger-110"></i>
                                         提交
                                     </button>
 
                                     &nbsp; &nbsp;
-                                    <button class="btn" type="reset">
+                                    <button class="btn" type="reset" id="reset">
                                         <i class="icon-undo bigger-110"></i>
                                         重置
                                     </button>

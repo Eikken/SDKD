@@ -7,6 +7,7 @@ import com.sdkd.model.Blog;
 import com.sdkd.model.Like;
 import com.sdkd.model.User;
 import com.sdkd.service.BlogService;
+import com.sdkd.service.CommentService;
 import com.sdkd.service.LikeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,8 @@ public class BlogController {
     @Resource
     private LikeService likeService;
 
+    @Resource
+    private CommentService commentService;
 
     @RequestMapping("/findAll")
     public String findAll(Model model, HttpServletResponse response){
@@ -120,10 +123,18 @@ public class BlogController {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("USER");
         Blog blog = blogService.findById(blogId);
+        String pid = (String)session.getAttribute("pid");
         JsonBean jsonBean = new JsonBean();
         if(user==null){
             jsonBean.setCode(-1);
-            jsonBean.setMsg("user=null,无法删除评论！");
+            jsonBean.setMsg("user=null,无法删除帖子！");
+            return mm.addAttribute("str",JSON.toJSONString(jsonBean));
+        }
+        if(Integer.parseInt(pid)==2){
+            blogService.deleteBlog(blogId);
+            commentService.deleteCommentCascadeBlog(blogId);
+            jsonBean.setCode(1);
+            jsonBean.setMsg("管理员删除操作成功！");
             return mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }
         if(!user.getId().equals(blog.getUser_id())){
@@ -132,8 +143,9 @@ public class BlogController {
             return mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }
         if(blogService.deleteBlog(blogId)){
+            commentService.deleteCommentCascadeBlog(blogId);
             jsonBean.setCode(1);
-            jsonBean.setMsg("帖子已删除！");
+            jsonBean.setMsg("帖子已删除！评论级联删除");
         }else {
             jsonBean.setCode(-1);
             jsonBean.setMsg("后台删除帖子错误！删除失败！");

@@ -55,4 +55,8 @@
     <delete id="deleteComment">
         DELETE FROM kd_comment WHERE comment_id = #{commment_id}
     </delete>
+<!--    //级联删除-->
+    <delete id="deleteCommentCascadeBlog">
+        DELETE FROM kd_comment WHERE blog_id = #{blog_id}
+    </delete>
 </mapper>

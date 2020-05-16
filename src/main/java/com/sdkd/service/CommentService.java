@@ -16,4 +16,6 @@ public interface CommentService {
     boolean likeComment(Comment comment);
 
     boolean deleteComment(Integer comment_id);
+
+    boolean deleteCommentCascadeBlog(Integer blog_id);
 }

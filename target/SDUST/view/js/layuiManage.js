@@ -20,15 +20,15 @@ layui.use(['laydate','laypage', 'layer','table'], function(){
         ,method:"post"
         ,cols: [[ //表头
             {type: 'checkbox', fixed: 'left'}
-            ,{field: 'id', title: '账号', width:115, sort: true, fixed: 'left', edit: 'text'}
+            ,{field: 'id', title: '账号', width:115, sort: true, fixed: 'left'}
             ,{field: 'name', title: '用户名',width:150,event: 'setName'}//, edit: 'text'}
             ,{field: 'sex', title: '性别',width:80,  sort: true}//, edit: 'text'}
             ,{field: 'phone', title: '电话', width:150, sort: true}//, edit: 'text'}
             ,{field: 'email', title: 'e-mail',width:150, sort: true}//, edit: 'text'}
             ,{field: 'address', title: '地址',width:100}//, edit: 'text'}
-            ,{field: 'isExpert', title: '分配角色',width:100,event: 'setRole', edit: 'text'}
+            ,{field: 'isExpert', title: '分配角色',width:100,event: 'setRole'}
             ,{field: 'count', title: '发帖数',width:90, sort: true}
-            ,{field: 'status', title: '用户状态',width:105, sort: true,event: 'setState', edit: 'text'}
+            ,{field: 'status', title: '用户状态',width:105, sort: true,event: 'setState'}
             ,{fixed: 'right',width:165, align:'center', toolbar: '#barDemo'}
         ]]
     });

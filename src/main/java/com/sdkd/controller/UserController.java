@@ -220,18 +220,19 @@ public class UserController {
         JsonBean jsonBean = new JsonBean();
         HttpSession session = request.getSession();
         Integer uid = (Integer) session.getAttribute("uid");
-//        User sessionUser = userService.findById(uid);
-        user.setId(uid);
         if(uid==null){
             jsonBean.setCode(-1);
             jsonBean.setMsg("没有用户登录，无法修改信息！");
             return mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }
+        user.setId(uid);
 //        System.err.println(user.toString());
 //        User{id=1601020727, name='123', password='123123', is_expert=null, phone='1787878', wechat='wxid111111', profile='123123哈哈哈', state=null, userPic='null', sex='女', number=null, birthday=Mon May 04 08:00:00 CST 2020, address='中国香港特别行政区', email='122', qq=111111, creatTime=null}
         if(userService.updateUser(user)){
             jsonBean.setMsg("修改信息成功！");
             jsonBean.setCode(1);
+            request.getSession().removeAttribute("currentName");
+            session.setAttribute("currentName", user.getName());//角色
         }else {
             jsonBean.setMsg("修改信息失败！500错误！");
             jsonBean.setCode(-1);
@@ -255,6 +256,11 @@ public class UserController {
         if(userService.updatePassword(user)){
             jsonBean.setMsg("修改密码成功！");
             jsonBean.setCode(1);
+            request.getSession().removeAttribute("USER");
+            request.getSession().removeAttribute("currentRole");
+            request.getSession().removeAttribute("currentName");
+            request.getSession().removeAttribute("uid");
+            request.getSession().removeAttribute("pid");
         }else {
             jsonBean.setMsg("修改密码失败！500错误！");
             jsonBean.setCode(-1);

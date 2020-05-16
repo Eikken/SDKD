@@ -26,4 +26,6 @@ public interface CommentDao {
     boolean likeComment(@Param("comment_id") Integer comment_id,@Param("praise_count") Integer praise_count);
 //    void replyComment();
     boolean deleteComment(Integer comment_id);
+
+    boolean deleteCommentCascadeBlog(Integer blog_id);
 }

@@ -7,7 +7,7 @@ layui.use('laydate', function(){
 });
 
 $(function () {
-    $(":button").click(function () {
+    $("#submit").click(function () {
         var formObject = {};
         var formArray =$("#updateInfo").serializeArray();
         $.each(formArray,function(i,item){
@@ -24,9 +24,11 @@ $(function () {
                 success: function (data) {
                     var jData = eval("("+data.str+")")
                     if (jData.code == 1) {
-                        window.parent.location.reload();
+                        layer.msg(jData.msg)
+                        $("#reset").click()
                     }else {
-                        console.log(jData.msg)
+                        layer.msg(jData.msg)
+                        $("#reset").click()
                     }
                 }
             })
@@ -40,14 +42,15 @@ $(function () {
                 success: function (data) {
                     var jData = eval("("+data.str+")")
                     if (jData.code == 1) {
-                        window.parent.location.reload();
+                        layer.msg(jData.msg)
+                        window.location.href = "login.action";
                     }else {
                         console.log(jData.msg)
+                        $("#reset").click()
                     }
                 }
             })
         }
-
         // console.log(newName)
     })
 

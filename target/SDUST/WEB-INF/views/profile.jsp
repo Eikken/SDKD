@@ -128,7 +128,7 @@
                     </li>
 
                     <li>
-                        <a href="profile.action">个人信息</a>
+                        <a href="#">个人信息</a>
                     </li>
                     <li class="active"><a href="editProfile.action?uid="+<%=request.getAttribute("uid")%>>更多</a></li>
                 </ul><!-- .breadcrumb -->
@@ -214,7 +214,6 @@
                                                 <div class="profile-user-info">
                                                     <div class="profile-info-row">
                                                         <div class="profile-info-name"> Username </div>
-
                                                         <div class="profile-info-value">
                                                             <span id="pname">null</span><!-- pid ==> profile id -->
                                                         </div>
@@ -222,7 +221,6 @@
 
                                                     <div class="profile-info-row">
                                                         <div class="profile-info-name"> Location </div>
-
                                                         <div class="profile-info-value">
                                                             <i class="icon-map-marker light-orange bigger-110"></i>
                                                             <span id="paddress">null</span>
