@@ -83,6 +83,7 @@ public class BlogController {
     @RequestMapping(value = "/save")
     public @ResponseBody ModelMap save(HttpServletRequest request, @RequestParam(value = "content", required = false) String content) {
         ModelMap mm = new ModelMap();
+        JsonBean jsonBean = new JsonBean();
         BlogDTO blogDTO = new BlogDTO();
 //        System.err.println("content:"+content);
         try{
@@ -93,9 +94,8 @@ public class BlogController {
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("USER");
             if(user == null){
-                JsonBean jsonBean = new JsonBean();
                 jsonBean.setCode(-1);
-                jsonBean.setMsg("没有用户登录无法发布帖子！");
+                jsonBean.setMsg("游客模式无法发布帖子！");
                 mm.addAttribute("str", JSON.toJSONString(jsonBean));
                 return mm;
             }
@@ -110,7 +110,10 @@ public class BlogController {
             blogDTO.setPraise_count(0);
 //           is_expert? blogDTO.setIs_expert(1):blogDTO.setIs_expert(0);
             blogService.saveBlog(blogDTO);
-            mm.addAttribute("str",JSON.toJSONString(blogDTO));
+            jsonBean.setMsg("发布成功");
+            jsonBean.setData(blogDTO);
+            jsonBean.setCode(1);
+            mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -127,7 +130,7 @@ public class BlogController {
         JsonBean jsonBean = new JsonBean();
         if(user==null){
             jsonBean.setCode(-1);
-            jsonBean.setMsg("user=null,无法删除帖子！");
+            jsonBean.setMsg("游客模式,无法删除帖子！");
             return mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }
         if(Integer.parseInt(pid)==2){

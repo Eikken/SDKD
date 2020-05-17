@@ -2,6 +2,7 @@ package com.sdkd.dao;
 
 import com.sdkd.model.Comment;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @date 2020/5/2 8:19
  * @see com.sdkd.dao
  */
+@Repository
 public interface CommentDao {
     Comment findComment(Integer comment_id);
     List<Comment> getSonComment(Integer id);//获取当前帖子的所有评论

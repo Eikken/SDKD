@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>登录页面 - Bootstrap后台管理系统模版Ace下载</title>
+	<title>登录页面</title>
 	<meta name="keywords" content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文" />
 	<meta name="description" content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +15,8 @@
 	<script src="${pageContext.request.contextPath}/view/libs/jquery-1.12.2.min.js" type="text/javascript" charset="UTF-8">
 	</script>
 	<script src="${pageContext.request.contextPath}/view/layer/layer.js" type="text/javascript">
+	</script>
+	<script src="${pageContext.request.contextPath}/view/js/login.js" type="text/javascript">
 	</script>
 	<script src="${pageContext.request.contextPath}/view/layui/layui.js"></script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/view/layui/css/layui.css">
@@ -59,7 +61,7 @@
 							<span class="red">Ace</span>
 							<span class="white">Application</span>
 						</h1>
-						<h4 class="blue">&copy; Company Name</h4>
+						<h4 class="blue">&copy; 进出口纺织原料质量安全风险监测系统</h4>
 					</div>
 
 					<div class="space-6"></div>
@@ -68,9 +70,9 @@
 						<div id="login-box" class="login-box visible widget-box no-border">
 							<div class="widget-body">
 								<div class="widget-main">
-									<h4 class="header blue lighter bigger">
+									<h4 class="header blue lighter bigger" id="msg">
 										<i class="icon-coffee green"></i>
-										Please Enter Your Information
+										请输入登录信息，或者直接点击Twitter使用游客模式
 									</h4>
 
 									<div class="space-6"></div>
@@ -119,12 +121,12 @@
 										</a>
 
 										<a class="btn btn-info" href="testquestion.action">
-											<i class="icon-twitter"></i>
+											<i class="icon-google"></i>
 										</a>
 
-										<a class="btn btn-danger" href="./login.action">
-											<i class="icon-google-plus"></i>
-										</a>
+										<a class="btn btn-danger" href="SendBlog.action?msg=1">
+											<i class="icon-twitter"></i>
+										</a>游客登录
 									</div>
 								</div><!-- /widget-main -->
 
@@ -315,8 +317,6 @@
 </body>
 <script type="text/javascript">
 	function loginCheck() {
-
-
 		// $.post({
 		// 	url:"./loginCheck.action",
 		// 	data:{
@@ -337,6 +337,5 @@
 		// 	}
 		// });
 	}
-
 </script>
 </html>

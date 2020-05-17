@@ -96,7 +96,7 @@ public class CommentController {
         JsonBean jsonBean = new JsonBean();
         if(uid==null){
             jsonBean.setCode(-1);
-            jsonBean.setMsg("user=null,无法删除评论！");
+            jsonBean.setMsg("游客模式,无法删除评论！");
             return mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }
         if(!uid.equals(comment.getUser_id())){

@@ -83,7 +83,7 @@ public class LoginController {
                 session.setAttribute("currentName", currentName);//用户名
                 session.setAttribute("uid", userDTO.getId());//用户账号
                 session.setAttribute("pid", userDTO.getIs_expert());//权限信息
-                return "redirect:SendBlog.action";
+                return "redirect:SendBlog.action?msg=0";
             }else{
 
                 System.err.println("No user "+userName);
@@ -93,7 +93,7 @@ public class LoginController {
         }
         HttpSession session = request.getSession();
         session.setAttribute("user",userName);
-        return "redirect:login.action?msg=UserInformationCheckError";
+        return "redirect:login.action?msg=-1";
     }
 
     @ResponseBody

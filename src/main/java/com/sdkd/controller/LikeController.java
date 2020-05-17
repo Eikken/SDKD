@@ -1,6 +1,7 @@
 package com.sdkd.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.sdkd.bean.JsonBean;
 import com.sdkd.model.Blog;
 import com.sdkd.model.Comment;
 import com.sdkd.model.Like;
@@ -43,9 +44,11 @@ public class LikeController {
         ModelMap mm = new ModelMap();
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("USER");
+        JsonBean jsonBean = new JsonBean();
         if(user==null){
-            String tips = "当前无用户登录，点赞无效，是否跳转登录页面？";
-            return mm.addAttribute("str",tips);
+            jsonBean.setCode(-1);
+            jsonBean.setMsg("当前无用户登录，点赞无效，是否跳转登录页面？");
+            return mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }
         Blog blog = blogService.findById(blogId);
         blog.setPraise_count(blog.getPraise_count()+1);
@@ -56,7 +59,10 @@ public class LikeController {
         likeService.updateBlogLike(blog);
         List<Blog> blogList = new ArrayList<>();
         blogList.add(blog);
-        mm.addAttribute("str",JSON.toJSONString(blogList));
+        jsonBean.setCode(11);
+        jsonBean.setMsg("点赞成功！");
+        jsonBean.setData(blogList);
+        mm.addAttribute("str",JSON.toJSONString(jsonBean));
         return mm;
     }
 

@@ -161,7 +161,13 @@ function askQuestion() {
         dataType: "json",
         type:"get",
         success:function (data) {
-            window.parent.location.reload();
+            var jData = eval('(' + data.str + ')');
+            if(jData.code==1){
+                layer.msg(jData.msg, {icon: 1});
+                window.parent.location.reload();
+            }else{
+                layer.msg(jData.msg, {icon: 2});
+            }
         }
     });
 }
@@ -204,8 +210,18 @@ function likeBlog(blog_id) {
         datatype:"json",
         type:'get',
         success:function(data) {
-            var jobj = eval(data.str)
-            document.getElementById("blogLike"+blog_id.toString()).innerText ="已赞!"+jobj[0].praise_count;
+            var jData = eval('(' + data.str + ')');
+            if(jData.code==1){
+                layer.msg(jData.msg, {icon: 1});
+                document.getElementById("blogLike"+blog_id.toString()).innerText ="已赞!"+jData.data[0].praise_count;
+            }else{
+                layer.confirm(jData.msg,{
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    window.location.href="login.action";
+                })
+            }
+
         }
     })
 }

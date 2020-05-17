@@ -13,14 +13,14 @@
 	<div class="navbar-header pull-right" role="navigation">
 		<ul class="nav ace-nav">
 			<li class="light-blue">
-				<a data-toggle="dropdown" href="profile.action" class="dropdown-toggle">
+				<a data-toggle="dropdown" href="./admin.action" class="dropdown-toggle">
 					<%
 						Object obj = session.getAttribute("USER");
 						if (obj != null){
 					%>
 					<img class="nav-user-photo" src="${pageContext.request.contextPath}/view/assets/avatars/huge.jpg" alt="SDUST" />
 					<%} %>
-					<span class="user-info">
+					<span class="user-info" id="userSpan">
 						<small>欢迎<%=session.getAttribute("currentRole") %>：<br><%=session.getAttribute("currentName") %></small>
 					</span>
 <%--					<%=session.getAttribute("currentRole") %>--%>
@@ -63,4 +63,22 @@
 			}
 		});
 	}
+	function getQueryVariable(variable)
+	{
+		var query = window.location.search.substring(1);
+		var vars = query.split("&");
+		for (var i=0;i<vars.length;i++) {
+			var pair = vars[i].split("=");
+			if(pair[0] == variable){return pair[1];}
+		}
+		return(false);
+	}
+	$(function () {
+		var msg = getQueryVariable("msg");
+		console
+		if(msg==1){
+			$("#userSpan").html("<small>游客登录模式<br>发言请先登录！</small>")
+			// $("#msg").attr("class","header red lighter bigger");
+		}
+	})
 </script>
