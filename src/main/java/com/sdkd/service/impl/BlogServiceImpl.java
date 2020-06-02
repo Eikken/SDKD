@@ -67,10 +67,22 @@ public class BlogServiceImpl implements BlogService {
         return blogDao.deleteBlog(blog_id);
     }
 
+    @Override
+    public boolean updateBlog(Blog blog) {
+        return blogDao.updateBlog(blog);
+    }
+
     private List<BlogDTO> converModel2DTO(List<Blog> blogList) {
         if(CollectionUtils.isEmpty(blogList)){
             System.err.println("CollectionUtils.isEmpty(blogList)");
             return Collections.EMPTY_LIST;
+        }
+        int commentMax = 0;
+        int praiseMax = 0;
+        for(Blog blog:blogList){
+            if(praiseMax<blog.getPraise_count()) praiseMax = blog.getPraise_count();
+            List<Comment> comments = commentDao.getSonComment(blog.getBlog_id());
+            if(commentMax<comments.size()) commentMax=comments.size();
         }
         List<BlogDTO> blogDTOList = new ArrayList<BlogDTO>();
         for(Blog blog:blogList){
@@ -78,7 +90,7 @@ public class BlogServiceImpl implements BlogService {
             blogDTO.setBlog_id(blog.getBlog_id());
             blogDTO.setBlog_text(blog.getBlog_text());
             blogDTO.setBlog_date(blog.getBlog_date());
-            blogDTO.setIs_hot(blog.getIs_hot());
+
             blogDTO.setPraise_count(blog.getPraise_count());
             blogDTO.setIs_expert(blog.getIs_expert());
             blogDTO.setUser_id(blog.getUser_id());
@@ -86,10 +98,14 @@ public class BlogServiceImpl implements BlogService {
             //动态插入username和comments list
             User user = userDao.findById(blog.getUser_id());
             blogDTO.setUserName(user.getName());
+            blogDTO.setPicPath(user.getUserPic());
             //给每个评论DTO上username
             List<Comment> comments = commentDao.getSonComment(blog.getBlog_id());
             List<CommentDTO> commentDTOS = converComment2DTO(comments);
-
+            blogDTO.setIs_hot(0);
+            if(blog.getPraise_count()==praiseMax||comments.size()==commentMax){
+                blogDTO.setIs_hot(1);
+            }
             blogDTO.setCommentDTOS(commentDTOS);
             //将新的blogDTO add到DTOList中
             blogDTOList.add(blogDTO);

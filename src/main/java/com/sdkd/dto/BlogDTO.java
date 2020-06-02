@@ -15,6 +15,16 @@ public class BlogDTO extends Blog {
 
     private List<CommentDTO> commentDTOS;
 
+    private String picPath;
+
+    public String getPicPath() {
+        return picPath;
+    }
+
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
+    }
+
     public List<CommentDTO> getCommentDTOS() {
         return commentDTOS;
     }

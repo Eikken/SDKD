@@ -75,6 +75,19 @@
         <include refid="blogInfo"></include>
         FROM kd_blog WHERE kd_blog.user_id = #{user_id}
     </select>
+    <update id="updateBlog">
+        UPDATE kd_blog
+        <set>
+            <if test="blog.blog_text!=null">
+                blog_text = #{blog.blog_text},
+            </if>
+            <if test="blog.blog_date!=null">
+                blog_date = #{blog.blog_date},
+            </if>
+        </set>
+        WHERE blog_id = #{blog.blog_id}
+    </update>
+
     <delete id="deleteBlog">
         DELETE FROM kd_blog WHERE blog_id = #{blog_id}
     </delete>

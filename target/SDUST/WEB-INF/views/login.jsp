@@ -194,38 +194,39 @@
 								<div class="widget-main">
 									<h4 class="header green lighter bigger">
 										<i class="icon-group blue"></i>
-										New User Registration
+										新用户注册
 									</h4>
 
 									<div class="space-6"></div>
-									<p> Enter your details to begin: </p>
+									<p> 请输入你的信息: </p>
 
 									<form>
 										<fieldset>
 											<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
-															<i class="icon-envelope"></i>
-														</span>
-											</label>
-
-											<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Username" />
+															<input type="text" class="form-control" placeholder="用户昵称" />
 															<i class="icon-user"></i>
 														</span>
 											</label>
+											<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="text" class="form-control" placeholder="申请账号" />
+															<i class="icon-bookmark"></i>
+														</span>
+											</label>
+
+
 
 											<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Password" />
+															<input type="password" class="form-control" placeholder="密码" />
 															<i class="icon-lock"></i>
 														</span>
 											</label>
 
 											<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Repeat password" />
+															<input type="password" class="form-control" placeholder="确认密码" />
 															<i class="icon-retweet"></i>
 														</span>
 											</label>
@@ -246,7 +247,7 @@
 													Reset
 												</button>
 
-												<button type="button" class="width-65 pull-right btn btn-sm btn-success">
+												<button type="button" class="width-65 pull-right btn btn-sm btn-success" >
 													Register
 													<i class="icon-arrow-right icon-on-right"></i>
 												</button>

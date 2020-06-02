@@ -1,13 +1,4 @@
-function getQueryVariable(variable)
-{
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
-    }
-    return(false);
-}
+
 /**
  * @uses json转date
  * @param json date
@@ -70,7 +61,7 @@ $.ajax({
                     "<div>" +
                     "    <i class='pull-left thumbicon icon-edit btn-pink no-hover'></i>" +
                     "    <a class='user' href='#'>"+ jData[i].userName +"</a>" +
-                    "&nbsp;>>&nbsp;" +jData[i].blog_text +
+                    "&nbsp;>>&nbsp;<p id='blog"+jData[i].blog_id+"'>" +jData[i].blog_text + "</p>"+
                     "    <div id='accordion' class='accordion-style1 panel-group'> " +
                     "       <div class='panel panel-default'> " +
                     "           <div class='panel-heading'> " +
@@ -93,10 +84,10 @@ $.ajax({
                     "</div>" +
                     // "<div class='tools action-buttons'>" +
                     "<div class='tools' id='tools"+i+"'>" +
-                    "    <a href='#' class='blue'>" +
+                    "    <a href='javascript:void(0)' onclick='editBlog("+jData[i].blog_id+")' class='blue'>" +
                     "        <i class='icon-pencil bigger-125'></i>" + "编辑" +
                     "    </a>" +
-                    "    <a href='#' class='red'>" +
+                    "    <a href='javascript:void(0)' onclick='deleteB("+jData[i].blog_id+")' class='red'>" +
                     "        <i class='icon-remove bigger-125'></i>" + "删除" +
                     "    </a>" +
                     "</div>" +
@@ -121,6 +112,37 @@ $.ajax({
     }
 })
 
+function editBlog(blog_id) {
+    layui.use("layer",function () {
+        var layer = layui.layer
+        layer.prompt({title: '请输入修改后的帖子内容', formType: 2}, function(content, index){
+            layer.close(index);
+            dataSet = {
+                'blog_id':blog_id,
+                'blog_text':content,
+                'user_id':getQueryVariable("uid")
+            }
+            $.ajax({
+                url: "./blog/updateBlog.action",
+                dataType: "json",
+                data:JSON.stringify(dataSet),
+                type: "post",
+                contentType: "application/json;charset=utf-8",
+                success:function (data) {
+                    var jData = eval(data);
+                    if(jData.code==1){
+                        layer.msg(jData.msg)
+                        $("#blog"+blog_id.toString()).text(jData.data.blog_text) ;
+                    }else{
+                        layer.msg(jData.msg)
+                    }
+                }
+            })
+            // layer.msg('你编辑了'+blog_id+'号帖子，内容是：'+ content);
+        });
+    })
+
+}
 // console.log($("#sessiondata").val())
 // console.log(getQueryVariable("uid"))
 // if( $("#sessiondata").val() != getQueryVariable("uid")){

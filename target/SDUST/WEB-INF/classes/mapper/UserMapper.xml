@@ -33,6 +33,7 @@
         phone,
         email,
         qq,
+        userPic,
         creatTime,
         wechat
     </sql>
@@ -96,7 +97,11 @@
     </select>
 <!--管理员插入用户-->
     <insert id="insertUser" keyProperty="id" parameterType="com.sdkd.model.User">
-        INSERT INTO kd_user(id,name,password,is_expert) values (#{user.id},#{user.name},#{user.password},#{user.is_expert})
+        INSERT INTO kd_user(id,name,password,is_expert,creatTime) values (#{user.id},#{user.name},#{user.password},#{user.is_expert},#{user.creatTime})
+    </insert>
+<!--    register-->
+    <insert id="registerUser" keyProperty="id" parameterType="com.sdkd.model.User">
+        INSERT INTO kd_user(id,name,password,creatTime) values (#{user.id},#{user.name},#{user.password},#{user.creatTime})
     </insert>
 
     <insert id="save" keyProperty="id" parameterType="com.sdkd.model.User">

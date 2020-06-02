@@ -59,7 +59,7 @@ public class LikeController {
         likeService.updateBlogLike(blog);
         List<Blog> blogList = new ArrayList<>();
         blogList.add(blog);
-        jsonBean.setCode(11);
+        jsonBean.setCode(1);
         jsonBean.setMsg("点赞成功！");
         jsonBean.setData(blogList);
         mm.addAttribute("str",JSON.toJSONString(jsonBean));

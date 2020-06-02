@@ -82,6 +82,7 @@ public class UserController {
             user.setName(name);
             user.setPassword(password);
             user.setIs_expert(Integer.parseInt(role));
+            user.setCreatTime(new Date());
             userService.insertUser(user);
             return "adminManage";
         }
@@ -220,6 +221,10 @@ public class UserController {
         JsonBean jsonBean = new JsonBean();
         HttpSession session = request.getSession();
         Integer uid = (Integer) session.getAttribute("uid");
+        System.err.println(user.toString());
+        if(user.getName()=="") user.setName(null);
+        if(user.getProfile()=="") user.setProfile(null);
+        if(user.getAddress()=="") user.setAddress(null);
         if(uid==null){
             jsonBean.setCode(-1);
             jsonBean.setMsg("没有用户登录，无法修改信息！");

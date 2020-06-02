@@ -2,6 +2,7 @@ package com.sdkd.service;
 
 import com.sdkd.dto.BlogDTO;
 import com.sdkd.model.Blog;
+import org.apache.ibatis.annotations.Param;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
@@ -18,5 +19,6 @@ public interface BlogService {
     void saveBlog(BlogDTO blogDTO);
     int findByUser(Integer user_id);
     boolean deleteBlog(Integer blog_id);
-
+    //编辑blog
+    boolean updateBlog(@Param("blog") Blog blog);
 }

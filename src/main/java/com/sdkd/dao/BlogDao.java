@@ -25,7 +25,7 @@ public interface BlogDao {
     // org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException:
     // Parameter 'id' not found. Available parameters are [arg2, arg1, arg0, param3, param1, param2]
     boolean deleteBlog(@Param("blog_id") Integer blog_id);
-    boolean likeBlog(@Param("blog_id") Integer blog_id,@Param("praise_count") Integer praise_count);
+    boolean updateBlog(@Param("blog") Blog blog);
     Blog findById(Integer blog_id);
     int findByUser(Integer user_id);
 }

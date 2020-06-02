@@ -65,9 +65,10 @@ function onload() {
                     "=====================================================================================" +
                     " <div class='itemdiv dialogdiv blogText'>" +
                     "<div class='user'>" +
-                    "<img alt='胡歌' src=\"../view/assets/avatars/huge.jpg\"/>" +
+                    "<img alt='"+ jData[i].userName +"' src='.."+jData[i].picPath+"'/>" +
                     "</div>" +
                     "<div class='body'>" +
+                    "<span class='label label-lg label-yellow arrowed-in' id='hotTopic'></span>"+
                     "<div class='time'>" +
                     "<i class='icon-time'></i> " + "<span class='grey'>"+ new Date(jData[i].blog_date).format("yyyy-MM-dd hh:mm:ss") +"</span>"+
                     "</div>"+
@@ -124,6 +125,9 @@ function onload() {
                     var d = document.getElementById("blogText"+i.toString());
                     d.style.color = "#FF0000";
                     // d.style.fontSize = "20px";iconfont icon-pinglun
+                }
+                if(jData[i].is_hot==1){
+                    $("#hotTopic").text("热门帖")
                 }
             }
         }
@@ -215,11 +219,11 @@ function likeBlog(blog_id) {
                 layer.msg(jData.msg, {icon: 1});
                 document.getElementById("blogLike"+blog_id.toString()).innerText ="已赞!"+jData.data[0].praise_count;
             }else{
-                layer.confirm(jData.msg,{
-                    btn: ['确定','取消'] //按钮
-                }, function(){
+                // layer.confirm(jData.msg,{
+                //     btn: ['确定','取消'] //按钮
+                // }, function(){
                     window.location.href="login.action";
-                })
+                // })
             }
 
         }

@@ -126,14 +126,14 @@ public class BlogController {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("USER");
         Blog blog = blogService.findById(blogId);
-        String pid = (String)session.getAttribute("pid");
+        Integer pid = (Integer)session.getAttribute("pid");
         JsonBean jsonBean = new JsonBean();
         if(user==null){
             jsonBean.setCode(-1);
             jsonBean.setMsg("游客模式,无法删除帖子！");
             return mm.addAttribute("str",JSON.toJSONString(jsonBean));
         }
-        if(Integer.parseInt(pid)==2){
+        if(pid==2){
             blogService.deleteBlog(blogId);
             commentService.deleteCommentCascadeBlog(blogId);
             jsonBean.setCode(1);
@@ -155,5 +155,19 @@ public class BlogController {
         }
         mm.addAttribute("str",JSON.toJSONString(jsonBean));
         return mm;
+    }
+    @RequestMapping(value = "/updateBlog")
+    public @ResponseBody JsonBean updateBlog(@RequestBody Blog blog,HttpServletRequest request){
+        JsonBean jsonBean = new JsonBean();
+        blog.setBlog_date(new Date());
+        if (blogService.updateBlog(blog)){
+            jsonBean.setCode(1);
+            jsonBean.setMsg("修改帖子成功！");
+            jsonBean.setData(blog);
+        }else{
+            jsonBean.setCode(-1);
+            jsonBean.setMsg("修改帖子失败！");
+        }
+        return jsonBean;
     }
 }

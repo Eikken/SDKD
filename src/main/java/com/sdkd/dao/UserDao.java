@@ -32,6 +32,7 @@ public interface UserDao {
     //改密码
     boolean updatePassword(@Param("user")User user);
 
+    boolean registerUser(@Param("user")User user);
     List<User> findByString(@Param("dom")String dom,@Param("value")String value);
 
     List<User> findByInteger(@Param("dom")String dom,@Param("value")Integer value);

@@ -185,7 +185,7 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-3 center">
 															<span class="profile-picture">
-																<img class="editable img-responsive" alt="Alex's Avatar" id="avatar2" src="${pageContext.request.contextPath}/view/assets/avatars/sdust.jpg">
+																<img class="editable img-responsive" alt="Alex's Avatar" id="userPic" src="${pageContext.request.contextPath}/view/assets/avatars/sdust.jpg">
 															</span>
 
                                                 <div class="space space-4"></div>
@@ -327,7 +327,7 @@
                                         <div class="space-12"></div>
 
                                         <div class="center">
-                                            <a href="SendBlog.acion" class="btn btn-small btn-primary">
+                                            <a href="SendBlog.action" class="btn btn-small btn-primary">
                                                 <i class="icon-rss bigger-150 middle"></i>
                                                 View more activities
                                                 <i class="icon-on-right icon-arrow-right"></i>
@@ -418,6 +418,7 @@
 <script src="${pageContext.request.contextPath}/view/assets/js/ace.min.js"></script>
 <script src="${pageContext.request.contextPath}/view/assets/js/jquery-ui-1.10.3.full.min.js"></script>
 <script src="${pageContext.request.contextPath}/view/js/profile.js"></script>
+<script src="${pageContext.request.contextPath}/view/js/beifenBlog.js"></script>
 </body>
 </html>
 
